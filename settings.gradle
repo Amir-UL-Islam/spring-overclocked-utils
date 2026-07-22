@@ -1,0 +1,4 @@
+rootProject.name = 'request-response'
+
+include 'common'
+include 'request-response'
