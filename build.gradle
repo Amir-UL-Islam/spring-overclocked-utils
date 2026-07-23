@@ -4,48 +4,72 @@ plugins {
     id 'signing'
 }
 
-allprojects {
-    group = project.property('group')
-    version = project.property('version')
+group = project.property('group')
+version = project.property('version')
+description = 'Reflection-based object copier, data-mapping and Bean Validation utilities, ' +
+        'plus a Spring Boot REST request/response layer (pagination, generic specifications, ' +
+        'global exception handling) - packaged as a single artifact.'
 
-    repositories {
-        mavenCentral()
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['common/src/main/java', 'request-response/src/main/java']
+        }
+        resources {
+            srcDirs = ['common/src/main/resources', 'request-response/src/main/resources']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['common/src/test/java', 'request-response/src/test/java']
+        }
+        resources {
+            srcDirs = ['common/src/test/resources', 'request-response/src/test/resources']
+        }
     }
 }
 
-subprojects {
-    apply plugin: 'java-library'
-    apply plugin: 'maven-publish'
-    apply plugin: 'signing'
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
 
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(project.property('javaVersion') as int)
+
+dependencies {
+    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
+    implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
+
+    testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events 'passed', 'skipped', 'failed'
+        exceptionFormat 'full'
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+
+            from components.java
+
+            groupId = project.property("group")
+            artifactId = rootProject.name
+            version = project.property("version")
         }
-        withSourcesJar()
-        withJavadocJar()
     }
 
-    compileJava {
-        options.encoding = 'UTF-8'
-        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    repositories {
+        mavenLocal()
     }
 
-    dependencies {
-        // Compile-only helpers
-        compileOnly "org.projectlombok:lombok:${lombokVersion}"
-        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-        testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-
-        // Testing framework
-        testImplementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
-    }
-
-    test {
-        useJUnitPlatform()
-        testLogging {
-            events "passed", "skipped", "failed"
-        }
-    }
 }

@@ -1,8 +1,0 @@
-dependencies {
-    // Include core module dependency
-    api project(':common')
-
-    // Spring Boot & Web JPA Starters
-    implementation "org.springframework.boot:spring-boot-starter-web:${springBootVersion}"
-    implementation "org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}"
-}

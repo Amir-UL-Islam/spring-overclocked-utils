@@ -1,4 +1,1 @@
-rootProject.name = 'request-response'
-
-include 'common'
-include 'request-response'
+rootProject.name = 'spring-overclocked-utils'
