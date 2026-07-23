@@ -73,3 +73,36 @@ publishing {
     }
 
 }
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'Spring Overclocked Utils'
+                url = 'https://github.com/Amir-UL-Islam/spring-overclocked-utils'
+                inceptionYear = '2026'
+
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution = 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'Amir-UL-Islam'
+                        name = 'Amir'
+                        url = 'https://github.com/Amir-UL-Islam'
+                    }
+                }
+
+                scm {
+                    url = 'https://github.com/Amir-UL-Islam/spring-overclocked-utils'
+                    connection = 'scm:git:git://github.com/Amir-UL-Islam/spring-overclocked-utils.git'
+                    developerConnection = 'scm:git:ssh://git@github.com/Amir-UL-Islam/spring-overclocked-utils.git'
+                }
+            }
+        }
+    }
+}
